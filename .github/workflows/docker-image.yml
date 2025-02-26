@@ -32,4 +32,4 @@ jobs:
         context: .
         file: ./Dockerfile
         push: true
-        tags: antonimoragues/prova:${GITHUB_REF#refs/tags/}
+        tags: antonimoragues/prova:${GITHUB_REF_NAME}
