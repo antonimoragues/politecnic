@@ -24,7 +24,7 @@ jobs:
           aws eks update-kubeconfig --name ${{ secrets.EKS_CLUSTER_NAME }} --region ${{ secrets.AWS_REGION }}
 
       - name: Change directory before checkout
-        run: cd /home/daw
+        run: cd /home
         
       - name: Checkout repository
         uses: actions/checkout@v4
