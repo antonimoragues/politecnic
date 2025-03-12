@@ -36,6 +36,8 @@ jobs:
         with:
           repository: amoragues/daw  # Replace with the actual repository
           token: ${{ secrets.GH_PAT }}  # If it's a private repo, store a GitHub PAT in secrets
+          username: antonimoragues  # Replace with the username if required
+
 
       - name: Deploy to EKS
         run: |
