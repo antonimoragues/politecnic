@@ -30,13 +30,14 @@ jobs:
         run: |
           git config --global user.name "antonimoragues"
           git config --global user.email "amoragues@politecnicllevant.cat"
-          git config --global url."https://antonimoragues:${{ secrets.GH_PAT }}@github.com".insteadOf "https://github.com"
+          #git config --global url."https://antonimoragues:${{ secrets.GH_PAT }}@github.com".insteadOf "https://github.com"
           
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
           repository: amoragues/daw  # Replace with the actual repository
-          token: ${{ secrets.GH_PAT }}  # If it's a private repo, store a GitHub PAT in secrets
+          #token: ${{ secrets.GH_PAT }}  # If it's a private repo, store a GitHub PAT in secrets
+          ssh-key: ${{ secrets.SSH_PRIVATE_KEY }}  # Usa una clave SSH en lugar de un token
 
       - name: Deploy to EKS
         run: |
