@@ -35,7 +35,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          repository: amoragues/daw  # Replace with the actual repository
+          repository: antonimoragues/daw  # Replace with the actual repository
           #token: ${{ secrets.GH_PAT }}  # If it's a private repo, store a GitHub PAT in secrets
           ssh-key: ${{ secrets.SSH_PRIVATE_KEY }}  # Usa una clave SSH en lugar de un token
 
