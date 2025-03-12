@@ -24,11 +24,6 @@ jobs:
       - name: Login to Amazon ECR
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v2
-
-      - name: Pull Image from ECR
-        run: |
-          IMAGE_URI="${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/my-app:latest"
-          docker pull $IMAGE_URI
           
       - name: Update kubeconfig for EKS
         run: |
