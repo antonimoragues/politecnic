@@ -26,6 +26,11 @@ jobs:
       - name: Change directory before checkout
         run: cd /home
         
+      - name: Set up Git user details
+        run: |
+          git config --global user.name "antonimoragues"
+          git config --global user.email "amoragues@politecnicllevant.cat"
+          
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
