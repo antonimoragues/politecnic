@@ -44,4 +44,4 @@ jobs:
           #kubectl set image deployment/my-app my-app=${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/my-app:latest --namespace default
           #kubectl rollout status deployment/my-app --namespace default
           kubectl delete deployment deployment-nginx
-          kubectl apply -f manifests/overlays/dev
+          kubectl apply -k manifests/overlays/dev
