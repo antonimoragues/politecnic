@@ -44,7 +44,8 @@ jobs:
 
       - name: Update Image Tag in Kustomization
         run: |
-          sed -i 's|newTag: .*|newTag: "1.1"|' manifests/overlays/dev/kustomization.yaml
+          #sed -i 's|newTag: .*|newTag: "1.1"|' manifests/overlays/dev/kustomization.yaml
+          sed -i "s/\(newTag:\) .*/\1 \"$TAG\"/" manifests/overlays/dev/kustomization.yaml
 
       - name: Deploy to EKS
         run: |
