@@ -1,0 +1,55 @@
+name: Deploy to EKS
+
+on:
+  push:
+    tags:
+      - '*'  # v* Triggers only on tags like v1.0.0, v2.1.3, etc
+  workflow_dispatch:  # Allow manual trigger
+
+jobs:
+  deploy:
+    name: Deploy to EKS
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Sanitize Tag Name
+        id: tag
+        run: |
+          TAG=$(echo ${GITHUB_REF_NAME} | sed 's/[^a-zA-Z0-9_.-]/-/g')
+          echo "Sanitized Tag: $TAG"
+          echo "TAG=$TAG" >> $GITHUB_ENV
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: "eu-west-3"
+       
+      - name: Update kubeconfig for EKS
+        run: |
+          aws eks update-kubeconfig --name ${{ secrets.EKS_CLUSTER_NAME }} --region ${{ secrets.AWS_REGION }}
+        
+      - name: Set up Git user details
+        run: |
+          git config --global user.name "antonimoragues"
+          git config --global user.email "amoragues@politecnicllevant.cat"
+          
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          repository: antonimoragues/daw  # Replace with the actual repository
+          ssh-key: ${{ secrets.SSH_PRIVATE_KEY }}  # Usa una clave SSH en lugar de un token
+          path: manifests  # Clone into 'manifests' directory
+
+      - name: Update Image Tag in Kustomization
+        run: |
+          #sed -i 's|newTag: .*|newTag: "1.1"|' manifests/overlays/dev/kustomization.yaml
+          sed -i "s/\(newTag:\) .*/\1 \"${{ env.TAG }}\"/" manifests/overlays/dev/kustomization.yaml
+
+      - name: Deploy to EKS
+        run: |
+          #kubectl set image deployment/my-app my-app=${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/my-app:latest --namespace default
+          #kubectl rollout status deployment/my-app --namespace default
+          kubectl delete deployment deployment-nginx
+          kubectl apply -k manifests/overlays/dev
