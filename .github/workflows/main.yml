@@ -29,11 +29,6 @@ jobs:
       - name: Update kubeconfig for EKS
         run: |
           aws eks update-kubeconfig --name ${{ secrets.EKS_CLUSTER_NAME }} --region ${{ secrets.AWS_REGION }}
-        
-      - name: Set up Git user details
-        run: |
-          git config --global user.name "antonimoragues"
-          git config --global user.email "amoragues@politecnicllevant.cat"
           
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -52,7 +47,7 @@ jobs:
         run: |
           #kubectl set image deployment/my-app my-app=${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/my-app:latest --namespace default
           #kubectl rollout status deployment/my-app --namespace default
-          kubectl delete deployment deployment-nginx
+          #kubectl delete deployment deployment-nginx
           kubectl apply -k manifests/overlays/dev
 
       - name: Configurar Git
