@@ -54,8 +54,8 @@ jobs:
           kubectl delete deployment deployment-nginx
           kubectl apply -k manifests/overlays/dev
 
-                - name: Configurar Git
-      - run: |
+      - name: Configurar Git
+        run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
         working-directory: manifests
