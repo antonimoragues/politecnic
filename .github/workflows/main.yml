@@ -41,6 +41,7 @@ jobs:
           repository: antonimoragues/daw  # Replace with the actual repository
           ssh-key: ${{ secrets.SSH_PRIVATE_KEY }}  # Usa una clave SSH en lugar de un token
           path: manifests  # Clone into 'manifests' directory
+          fetch-depth: 0  # <--- Esto es importante
 
       - name: Update Image Tag in Kustomization
         run: |
