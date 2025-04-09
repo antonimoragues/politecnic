@@ -53,3 +53,17 @@ jobs:
           #kubectl rollout status deployment/my-app --namespace default
           kubectl delete deployment deployment-nginx
           kubectl apply -k manifests/overlays/dev
+
+                - name: Configurar Git
+      - run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+        working-directory: manifests
+
+      - name: Commit y push del cambio
+        run: |
+          git add overlays/dev/kustomization.yaml
+          git commit -m "chore: update image tag to ${{ env.TAG }}" || echo "No changes to commit"
+          git push origin HEAD
+          working-directory: manifests
+
