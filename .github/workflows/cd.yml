@@ -5,3 +5,15 @@ on:
         description: 'Entorno a desplegar'
         required: false
         default: 'dev'
+      version:
+        description: 'Versión a desplegar'
+        required: false
+
+jobs:
+  print:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Mostrar inputs
+        run: |
+          echo "Entorno: ${{ github.event.inputs.environment }}"
+          echo "Versión: ${{ github.event.inputs.version }}"
